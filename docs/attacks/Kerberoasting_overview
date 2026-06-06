@@ -17,4 +17,4 @@ Execution of impacket-GetUserSPNs against EVILCORP.LOCAL to request a TGS for th
 see: (KERB_ATTACK.png) 
 
 Successful offline cracking of the TGS hash with hashcat using rockyou.txt and toggles1.rule. Status Cracked confirms the service account password was recovered: Password123!.
-see: (KERB_RESULT)
+see: (KERB_RESULT.PNG)

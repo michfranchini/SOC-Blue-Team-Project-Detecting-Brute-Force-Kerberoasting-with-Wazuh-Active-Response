@@ -14,7 +14,7 @@ python3 GetSPNs.py -request -dc-ip 10.0.10.10 enterprise.local/Administrator
 *Attack Details*
 
 Execution of impacket-GetUserSPNs against EVILCORP.LOCAL to request a TGS for the svc-iis service account. The tool returned a Kerberos TGS hash ready for offline cracking.
-see: [KERB_ATTACK.png](docs/attacks/KERB_ATTACK.png) 
+see: ![KERB_ATTACK.png](KERB_ATTACK.png) 
 
 Successful offline cracking of the TGS hash with hashcat using rockyou.txt and toggles1.rule. Status Cracked confirms the service account password was recovered: Password123!.
-see: [KERB_RESULT.PNG](docs/attacks/KERB_RESULT.png)
+see: ![KERB_RESULT.PNG](KERB_RESULT.png)

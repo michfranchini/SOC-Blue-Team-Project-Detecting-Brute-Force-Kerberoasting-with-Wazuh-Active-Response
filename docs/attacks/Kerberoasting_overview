@@ -1,0 +1,18 @@
+# Kerberoasting Attack Simulation
+## Objective
+Test detection of Kerberoasting attack targeting domain service accounts.
+
+## Tools & Commands Used
+- **Tool**: `impacket-GetSPNs.py` (Kali Linux)
+- **Command**:
+bash
+python3 GetSPNs.py -request -dc-ip 10.0.10.10 enterprise.local/Administrator
+
+- *Target*: `DC.enterprise.local` (10.0.10.10)
+- *Goal*: Request TGS tickets for service accounts (SPNs).
+
+*Attack Details*
+1. From Kali, queried SPNs with `setspn -q */*` to find `MSSQLSvc/DC.enterprise.local`.
+2. Ran `GetSPNs.py` to request TGS ticket for the SPN.
+3. Traffic was *blocked by pfSense firewall* (no traffic reached DC).
+4. No alerts in Wazuh (expected, since attack didn't reach host).

@@ -1,74 +1,78 @@
-Security Monitoring Configuration
+## Security Monitoring Configuration
 
-To provide centralized monitoring and endpoint visibility, a Wazuh deployment was integrated into the lab architecture.
+### Wazuh Deployment & Detection
 
-Wazuh Architecture
+This section describes the deployment of the monitoring stack and the validation of detection capabilities during attack simulations.
 
-The monitoring stack consisted of:
+1. Wazuh Manager Deployment (Linux)
 
-Wazuh Manager deployed on AlmaLinux server
-Wazuh agents installed on monitored Windows endpoints
-Centralized log collection and event correlation
-Detection rules focused on authentication activity
+A dedicated Linux virtual machine was configured as the centralized monitoring server.
 
-Architecture flow:
+Primary responsibilities:
 
-Windows Endpoint
-       │
-Wazuh Agent
-       │
-Wazuh Manager (Linux)
-       │
-Detection / Alerting
-Wazuh Manager Deployment
+Event collection
+Agent management
+Alert correlation
+Security monitoring
 
-The Wazuh Manager was deployed on a dedicated Linux server within the internal network.
 
-Configuration tasks included:
 
-Wazuh manager installation and initialization
-Agent enrollment configuration
-Connectivity validation between manager and endpoints
-Dashboard accessibility verification
 
-Screenshot:
+Figure 1: Wazuh dashboard displaying connected agents and monitoring overview.
 
-screenshots/wazuh/wazuh-manager-installation.png
+2. Endpoint Monitoring Configuration (Windows)
 
-Endpoint Monitoring Configuration
+A Wazuh agent was deployed on the monitored Windows endpoint to forward security-related telemetry to the manager.
 
-A Wazuh agent was deployed on the monitored Windows system to collect security events.
+Monitored data sources included:
 
-Collected telemetry included:
+Windows Security Events
+Authentication activity
+System logs
+User activity
 
-Authentication events
-Windows Security logs
-System activity
-Authentication failures and successes
 
-Screenshot:
 
-screenshots/wazuh/windows-agent-installed.png
 
-Detection Logic
+Figure 2: Successful deployment of Wazuh agent on monitored Windows endpoint.
 
-The monitoring configuration focused primarily on authentication-based attack scenarios.
+3. Detection Validation
 
-Implemented detection objectives:
+Attack simulations were performed to validate logging visibility and alert generation.
 
-Detect failed authentication attempts
-Observe brute-force activity
-Validate log forwarding from endpoints
-Verify correlation between endpoint and network controls
-Validation Results
+3.1 Kerberoasting Activity
 
-Following deployment, connectivity between the manager and monitored endpoints was verified successfully.
+Observed indicators:
 
-The environment was then used to validate:
+Event ID 4769 generated during TGS requests
+RC4 encryption usage identified
+Authentication activity forwarded to Wazuh
 
-Agent communication
-Event forwarding
-Detection pipeline functionality
-Visibility during attack simulation
 
-This setup provided centralized visibility across the monitored infrastructure and enabled threat hunting activities within the lab environment.
+
+
+Figure 3: Authentication activity related to Kerberoasting scenario.
+
+3.2 Brute Force Activity
+
+Observed indicators:
+
+Event ID 4625 authentication failures
+Multiple failed login attempts
+Correlated authentication alerts within monitoring platform
+
+
+
+
+Figure 4: Failed authentication events collected during brute-force simulation.
+
+4. Key Findings
+
+The monitoring stack successfully demonstrated:
+
+Centralized event collection
+Endpoint visibility across monitored systems
+Authentication monitoring capabilities
+Detection support during attack simulation scenarios
+
+The combination of network segmentation and centralized monitoring improved overall defensive visibility within the lab environment.

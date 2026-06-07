@@ -1,93 +1,72 @@
-## Enterprise Detection & Monitoring Lab 
+# Enterprise Detection & Monitoring Lab | SIEM + SOAR + Active Defense
 
-Enterprise detection and monitoring lab designed to simulate a segmented enterprise network with centralized logging, endpoint monitoring, and threat detection capabilities.
+> **TL;DR**: An enterprise lab that doesn't just *detect* attacks. It **blocks them automatically**.
+>
+> Wazuh SIEM for detection + Active Response on pfSense for mitigation = Full SOC workflow.
 
-## Project Overview
+[[License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[[Wazuh](https://img.shields.io/badge/SIEM-Wazuh_4.x-blue)](https://wazuh.com/)
+[[pfSense](https://img.shields.io/badge/Firewall-pfSense_CE_2.7.2-red)](https://www.pfsense.org/)
 
-This project simulates a small enterprise environment to study:
+## Project Overview: From Detection to Automated Response
 
-Network segmentation and firewall policies
-Attack simulation in a controlled lab
-Centralized logging and SIEM correlation
-Endpoint detection and alerting
+This project simulates a segmented enterprise environment to study the complete defensive kill chain: **Attack → Detect → Respond**.
 
-The goal is to replicate a realistic SOC-like environment for defensive security analysis.
+Unlike classic SIEM labs, this one implements a custom **SOAR** layer: when Wazuh detects an attack, it automatically instructs the pfSense firewall to ban the attacker's IP. **Zero human intervention**.
 
-## Project Goals
+**Goal**: Replicate the capabilities of a modern SOC, from log collection to automated response.
 
-Implement defense-in-depth using pfSense firewall segmentation
-Simulate brute-force and credential-based attacks
-Monitor and correlate events using Wazuh SIEM
-Analyze detection effectiveness and logging coverage
+## Core Capabilities
+
+| Phase | Technology | Role in the Lab |
+| --- | --- | --- |
+| **1. Network Segmentation** | pfSense CE 2.7.2 | Isolates the attacker network `10.0.20.0/24` from the corporate LAN `10.0.10.0/24` |
+| **2. Endpoint Monitoring** | Wazuh Agent 4.x | Collects Event ID 4625, 4769 from Windows Server 2012 R2 Domain Controller |
+| **3. SIEM & Correlation** | Wazuh Manager | Centralizes logs and correlates with Rule 60122 to detect bruteforce |
+| **4. SOAR / Active Response** | Custom Script + pfSense API | Bans the attacker's IP on pfSense via SSH in < 3 seconds from detection |
+
+## Attack Scenarios Implemented
+
+1. **[Brute Force / Password Spraying](./docs/attacks/bruteforce.md)**
+   - **Tool**: Hydra from Kali Linux `10.0.20.102`
+   - **Target**: Windows DC `10.0.10.10`
+   - **Detection**: 164 Event ID 4625 in 2 minutes
+   - **Response**: Auto-block of the attacker IP on pfSense via `easyrule`
+
+2. **[Kerberoasting](./docs/attacks/Kerberoasting_overview.md)**
+   - **Tool**: `GetSPNs.py` + `GetUserSPNs.py`
+   - **Target**: Service accounts with SPNs
+   - **Detection**: Event ID 4769 with `Ticket Encryption Type: 0x17` (RC4)
 
 ## Lab Architecture
+[ Kali Linux ]      [   pfSense Firewall   ]      [ Windows DC + Wazuh Agent ]
+10.0.20.102  <---->      10.0.10.1 / .20.1      <---->      10.0.10.10
+   Attacker                    |                            Victim + Endpoint
+                               |
+                      [ Wazuh Manager 4.x ]
+                         10.0.10.100
+                         SIEM + SOAR Brain
 
-The environment is composed of a segmented virtual network:
+**SOAR Flow**: `DC generates 4625` → `Agent forwards to Wazuh` → `Rule 60122 triggers` → `Wazuh executes pfblock.sh` → `pfSense blocks IP`
 
-OPT Network (10.0.20.0/24): Attacker machine (Kali Linux)
-LAN Network (10.0.10.0/24): Windows Domain Controller + client machines
-Firewall: pfSense managing all inter-network traffic
+## Key Results & Takeaways
 
-Architecture diagram:
-docs/network-architecture.md
+1. **Defense-in-Depth Validated**: The attack is stopped at the network level by pfSense, before flooding the DC logs.
+2. **MTTR ≈ 3s**: Mean Time to Respond. Less than 3 seconds from first alert to firewall block.
+3. **SIEM ≠ Just Logging**: Without the SOAR part, the SIEM would only generate alerts. Here, the system defends itself.
+4. **End-to-End Visibility**: Full host + network coverage. If pfSense blocks, Wazuh stops seeing 4625: proof that mitigation works.
 
-## Technologies Used
+## Tech Stack
 
-Firewall: pfSense CE 2.7.2
-SIEM: Wazuh 4.x
-Attacker VM: Kali Linux 2024
-Target: Windows Server 2012 R2 (Domain Controller)
-Hypervisor: Oracle VirtualBox 7.0
-5. Network Topology
-
-The lab is based on a segmented architecture:
-
-OPT1 (10.0.20.0/24) → Attack simulation network
-LAN (10.0.10.0/24) → Domain infrastructure
-
-Topology diagram:
-screenshots/network-topology.png
-
-## Security Monitoring Configuration
-
-Wazuh agents deployed on Windows endpoints
-Centralized log collection on Wazuh manager
-Event forwarding and correlation enabled
-Custom detection rules for authentication failures (Event ID 4625)
-
-Configuration details:
-docs/siem-configuration.md
-
-## Attack Simulation
-
-The following attack scenarios were executed in a controlled environment:
-
-Brute-force attack from Kali Linux against Domain Controller
-Authentication attempts using Hydra and manual testing
-Kerberoasting attempt using GetSPNs.py
-
-References:
-
-docs/attack-simulation.md
-docs/kerberoasting.md
-
-## Detection Results
-
-Key observations from monitoring:
-
-pfSense successfully blocked unauthorized traffic
-screenshots/pfsense-deny-log.png
-No Event ID 4625 generated in Wazuh for blocked attempts
-→ Attack was prevented at network level (before reaching endpoint logging)
-
-## Key Takeaways
-Firewall segmentation effectively reduced attack surface
-SIEM visibility depends on where the attack is stopped
-Endpoint logging alone is not sufficient without network monitoring
-Importance of layered detection strategy (network + host)
+- **Firewall**: pfSense CE 2.7.2
+- **SIEM/SOAR**: Wazuh 4.x
+- **Attacker**: Kali Linux 2024
+- **Target**: Windows Server 2012 R2 Domain Controller
+- **Hypervisor**: Oracle VirtualBox 7.0
 
 ## Future Improvements
-Add ELK stack comparison with Wazuh
-Automate attack simulation with scripts
-Introduce persistence and lateral movement scenarios
-Add MITRE ATT&CK mapping for each scenario
+
+- [ ] MITRE ATT&CK mapping for each scenario
+- [ ] Integration with TheHive for case management
+- [ ] Response playbook for Kerberoasting
+- [ ] Grafana dashboard for MTTD/MTTR metrics

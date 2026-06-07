@@ -32,7 +32,7 @@ User activity
 
 
 
-![Successful deployment of Wazuh agent on monitored Windows endpoint.](./attacks/screenshots/WAZUH_ON_WINDOWS.png)
+![Successful deployment of Wazuh agent on monitored Windows endpoint.](./attacks/screenshots/WAZUH_ON_WIN.png)
 
 
 ## Detection Validation
@@ -63,7 +63,7 @@ Correlated authentication alerts within monitoring platform
 
 
 
-Figure 4: Failed authentication events collected during brute-force simulation.
+![Failed authentication events collected during brute-force simulation.](./attacks/screenshots/WAZUH_EVENTS2.png)
 
 
 ### Key Findings

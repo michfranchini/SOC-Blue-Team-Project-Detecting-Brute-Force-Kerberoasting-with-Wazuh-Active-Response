@@ -47,7 +47,7 @@ Event ID 4769 generated during TGS requests
 RC4 encryption usage identified
 Authentication activity forwarded to Wazuh
 
-![Successful Kerberoasting attack showing extracted TGS ticket for offline cracking. This activity triggered Event ID 4769 with RC4 encryption in Wazuh.](./attacks/screenshots.KERB_RESULT.png)
+![Successful Kerberoasting attack showing extracted TGS ticket for offline cracking. This activity triggered Event ID 4769 with RC4 encryption in Wazuh.](./attacks/screenshots/KERB_RESULT.png)
 
 
 Brute Force Activity

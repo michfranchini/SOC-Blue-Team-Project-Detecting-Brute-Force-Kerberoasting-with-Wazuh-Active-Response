@@ -32,7 +32,7 @@ User activity
 
 
 
-[Successful deployment of Wazuh agent on monitored Windows endpoint.](docs/attacks/screenshots/WAZUH_ON_WINDOWS.png)
+[Successful deployment of Wazuh agent on monitored Windows endpoint.](/attacks/screenshots/WAZUH_ON_WINDOWS.png)
 
 
 ## Detection Validation

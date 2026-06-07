@@ -15,9 +15,7 @@ Agent management
 Alert correlation
 Security monitoring
 
-![
-
-Figure 1: Wazuh dashboard displaying connected agents and monitoring overview.
+![Figure 1: Wazuh dashboard displaying connected agents and monitoring overview.
 
 
 Endpoint Monitoring Configuration (Windows)
@@ -34,7 +32,7 @@ User activity
 
 
 
-![Successful deployment of Wazuh agent on monitored Windows endpoint.](docs/attacks/screenshots/WAZUH_ON_WINDOWS.png)
+[Successful deployment of Wazuh agent on monitored Windows endpoint.](docs/attacks/screenshots/WAZUH_ON_WINDOWS.png)
 
 
 ## Detection Validation

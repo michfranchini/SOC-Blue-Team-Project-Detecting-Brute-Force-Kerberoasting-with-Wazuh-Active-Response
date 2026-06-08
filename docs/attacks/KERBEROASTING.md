@@ -1,5 +1,5 @@
 ## Kerberoasting Attack
-Kerberoasting exploits service accounts with SPNs to request TGS tickets encrypted with the account's password. The hash can be cracked offline without generating logs on the Domain Controller.
+Kerberoasting exploits service accounts with SPNs to request TGS tickets encrypted with the account's password. Kerberoasting allows offline password cracking after ticket retrieval, while generating limited but detectable authentication artifacts on the Domain Controller.
 
 ### 1. SPN Enumeration and TGS Request
 We use `impacket-GetUserSPNs` to enumerate accounts with SPNs and request a TGS for the `svc-iis` account. The authentication user is a low-privilege domain user.

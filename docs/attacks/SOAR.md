@@ -6,7 +6,7 @@ This document covers the SOAR implementation. When Wazuh detects a brute force a
 
 The Wazuh Manager is configured to trigger a custom script when Rule 60122 fires. This rule corresponds to "Logon failure - Unknown user or bad password", i.e., Windows Event ID 4625.
 
-![Figure 1: Active Response Configuration](./screenshots/OSSEC_ACTIVE_RESPONSE.png)
+![Figure 1: Active Response Configuration](./screenshots/OSSEC_ACTIVE_RESPONSE_CONFIG.png)
 
 *Figure 1: ossec.conf defines the pfblock command and links it to Rule 60122.*
 

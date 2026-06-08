@@ -37,7 +37,7 @@ This Bash script receives the attacker's IP from Wazuh and uses SSH to execute e
 
 [Figure 2: pfblock.sh Active Response Script](./scripts/PFBLOCK.SH)
 
-*Figure 2: The script blocks the attacker's IP via `easyrule block wan` and logs all actions. Wazuh automatically calls it with `delete` after the configured timeout.*
+The script blocks the attacker's IP via `easyrule block wan` and logs all actions. Wazuh automatically calls it with `delete` after the configured timeout.
 
 
 **Script logic:**

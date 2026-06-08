@@ -51,7 +51,7 @@ Unlike classic SIEM labs, this one implements a custom **SOAR** layer: when Wazu
 
 ## Key Results & Takeaways
 
-1. **Defense-in-Depth Validated**: The attack is stopped at the network level by pfSense, before flooding the DC logs.
+1. **Defense-in-Depth Validated**: Network-level mitigation reduced attack duration and prevented continued authentication attempts.
 2. **MTTR ≈ 3s**: Mean Time to Respond. Less than 3 seconds from first alert to firewall block.
 3. **SIEM ≠ Just Logging**: Without the SOAR part, the SIEM would only generate alerts. Here, the system defends itself.
 4. **End-to-End Visibility**: Full host + network coverage. If pfSense blocks, Wazuh stops seeing 4625: proof that mitigation works.

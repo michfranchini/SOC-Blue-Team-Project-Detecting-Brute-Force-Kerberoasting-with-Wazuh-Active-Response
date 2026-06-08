@@ -6,10 +6,10 @@ This document covers the brute force attack simulation against a Windows Domain 
 
 The attacker machine `kali` with IP `10.0.20.102` was used to identify and target the Domain Controller.
 
-**Reconnaissance**: An Nmap scan was performed to identify the target `10.0.10.5` and confirm SSH was open on port 22.
+**Reconnaissance**: An Nmap scan was performed to identify the target `10.0.10.10`.
 
-![Figure 1: Attacker reconnaissance with Nmap](./screenshots/BRUTEFORCE_RECON.png)
-*Nmap scan from attacker `10.0.20.102` targeting `10.0.10.5` and confirming port 22 is open.*
+![Figure 1: Attacker reconnaissance with Nmap](./screenshots/BRUTEFORCE_RECON_RDP.png)
+*Nmap scan from attacker `10.0.20.102` targeting `10.0.10.10` and confirming port 3389 is open.*
 
 **Attack Launch**: Hydra was used to brute force the `Administrator` account on the target `10.0.10.10` using the `rockyou.txt` wordlist.
 
